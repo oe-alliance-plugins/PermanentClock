@@ -3,7 +3,6 @@
 ## by AliAbdul
 ## Python 3 / openATV cleanup
 ##
-from shutil import copyfile
 import gettext
 from os import path
 
