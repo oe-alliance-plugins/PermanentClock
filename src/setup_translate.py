@@ -9,10 +9,10 @@ class build_trans(Command):
 	description = 'Compile .po files into .mo files'
 
 	def initialize_options(self):
-		pass # Will be called by setuptools, but we don't have any options to initialize
+		pass  # Will be called by setuptools, but we don't have any options to initialize
 
 	def finalize_options(self):
-		pass # Will be called by setuptools, but we don't have any options to initialize
+		pass  # Will be called by setuptools, but we don't have any options to initialize
 
 	def run(self):
 		s = join('PermanentClock', 'locale')
