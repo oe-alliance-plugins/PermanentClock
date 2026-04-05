@@ -1,49 +1,44 @@
 import math
-from Components.Renderer.Renderer import Renderer
-from skin import parseColor
-from enigma import eCanvas, eSize, gRGB, eRect
-from sys import version_info
 
-PY3 = version_info[0] == 3
+from Components.Renderer.Renderer import Renderer
+from enigma import eCanvas, eRect, eSize, gRGB
+from skin import parseColor
 
 
 class PermanentClockWatches(Renderer):
+	GUI_WIDGET = eCanvas
+
 	def __init__(self):
 		Renderer.__init__(self)
 		self.fColor = gRGB(255, 255, 255, 0)
 		self.bColor = gRGB(0, 0, 0, 255)
 		self.numval = -1
 
-	GUI_WIDGET = eCanvas
-
 	def applySkin(self, desktop, parent):
 		attribs = []
-		for (attrib, what) in self.skinAttributes:
-			if (attrib == 'foregroundColor'):
+		for attrib, what in self.skinAttributes:
+			if attrib == 'foregroundColor':
 				self.fColor = parseColor(what)
-			elif (attrib == 'backgroundColor'):
+			elif attrib == 'backgroundColor':
 				self.bColor = parseColor(what)
 			else:
 				attribs.append((attrib, what))
 		self.skinAttributes = attribs
 		return Renderer.applySkin(self, desktop, parent)
 
-	def calculate(self, w, r, m):
-		a = (w * 6)
-		z = (math.pi / 180)
-		x = int(round((r * math.sin((a * z)))))
-		y = int(round((r * math.cos((a * z)))))
-		return ((m + x), (m - y))
+	def calculate(self, watch_value, radius, middle):
+		angle = watch_value * 6
+		radians = math.pi / 180
+		x = int(round(radius * math.sin(angle * radians)))
+		y = int(round(radius * math.cos(angle * radians)))
+		return (middle + x, middle - y)
 
 	def hand(self):
 		width = self.instance.size().width()
 		height = self.instance.size().height()
-		if PY3:
-			r = (min(width, height) // 2)
-		else:
-			r = (min(width, height) / 2)
-		(endX, endY,) = self.calculate(self.numval, r, r)
-		self.draw_line(r, r, endX, endY)
+		radius = min(width, height) // 2
+		end_x, end_y = self.calculate(self.numval, radius, radius)
+		self.draw_line(radius, radius, end_x, end_y)
 
 	def draw_line(self, x0, y0, x1, y1):
 		steep = abs(y1 - y0) > abs(x1 - x0)
@@ -59,35 +54,31 @@ class PermanentClockWatches(Renderer):
 			ystep = -1
 		deltax = x1 - x0
 		deltay = abs(y1 - y0)
-		error = -deltax / 2
+		error = -(deltax // 2)
 		y = y0
 		for x in range(x0, x1 + 1):
 			if steep:
 				self.instance.fillRect(eRect(y, x, 1, 1), self.fColor)
 			else:
 				self.instance.fillRect(eRect(x, y, 1, 1), self.fColor)
-			error = error + deltay
+			error += deltay
 			if error > 0:
-				y = y + ystep
-				error = error - deltax
+				y += ystep
+				error -= deltax
 
 	def changed(self, what):
-		sss = self.source.value
-		if what[0] == self.CHANGED_CLEAR:
-			pass
-		else:
-			if self.instance:
-				if self.numval != sss:
-					self.numval = sss
-					self.instance.clear(self.bColor)
-					self.hand()
+		current_value = self.source.value
+		if what[0] != self.CHANGED_CLEAR and self.instance and self.numval != current_value:
+			self.numval = current_value
+			self.instance.clear(self.bColor)
+			self.hand()
 
 	def postWidgetCreate(self, instance):
-		def parseSize(str):
-			(x, y,) = str.split(',')
-			return eSize(int(x), int(y))
+		def parseSize(value):
+			x_value, y_value = value.split(',')
+			return eSize(int(x_value), int(y_value))
 
-		for (attrib, value,) in self.skinAttributes:
-			if ((attrib == 'size') and self.instance.setSize(parseSize(value))):
-				pass
+		for attrib, value in self.skinAttributes:
+			if attrib == 'size':
+				self.instance.setSize(parseSize(value))
 		self.instance.clear(self.bColor)

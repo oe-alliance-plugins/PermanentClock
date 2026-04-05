@@ -1,0 +1,19 @@
+{
+  "branch": "main",
+  "depends_recipe": "",
+  "description_control": "Shows the clock permanent on the screen",
+  "description_recipe": "Shows the clock permanent on the screen",
+  "history_source_dir": "permanentclock",
+  "internal_package_name": "enigma2-plugin-extensions-permanentclock",
+  "module_dir_name": "PermanentClock",
+  "output_subdir": "permanentclock",
+  "package_name": "enigma2-plugin-extensions-permanentclock",
+  "plugin_src_rel": "permanentclock",
+  "python_package": "PermanentClock",
+  "rdepends_recipe": "",
+  "replaces": "",
+  "repo_name": "PermanentClock",
+  "rrecommends": "",
+  "rreplaces": "",
+  "selected_from_plugin_list": true
+}

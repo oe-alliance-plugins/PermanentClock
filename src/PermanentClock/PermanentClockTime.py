@@ -1,6 +1,6 @@
 from Components.Converter.Converter import Converter
 from Components.Element import cached
-from time import localtime, strftime
+from time import localtime
 
 
 class PermanentClockTime(Converter, object):
@@ -19,25 +19,21 @@ class PermanentClockTime(Converter, object):
 
 	@cached
 	def getValue(self):
-		time = self.source.time
-		if time is None:
+		current_time = self.source.time
+		if current_time is None:
 			return 0
+
+		t = localtime(current_time)
 		if self.type == self.SECHAND:
-			t = localtime(time)
-			c = t.tm_sec
-			return c
+			return t.tm_sec
 		elif self.type == self.MINHAND:
-			t = localtime(time)
-			c = t.tm_min
-			return c
+			return t.tm_min
 		elif self.type == self.HOURHAND:
-			t = localtime(time)
-			c = t.tm_hour
-			m = t.tm_min
-			if c > 11:
-				c = c - 12
-			val = (c * 5) + (m / 12)
-			return val
+			hour = t.tm_hour
+			minute = t.tm_min
+			if hour > 11:
+				hour -= 12
+			return (hour * 5) + (minute / 12.0)
 		return 0
 
 	value = property(getValue)

@@ -1,24 +1,25 @@
 ##
 ## Permanent Clock
 ## by AliAbdul
+## Python 3 / openATV cleanup
 ##
+from shutil import copyfile
+import gettext
+from os import path
+
 from Components.ActionMap import ActionMap
-from Components.config import config, ConfigInteger, ConfigSubsection, ConfigYesNo, ConfigSelection
+from Components.Input import Input
 from Components.Language import language
 from Components.MenuList import MenuList
-from Components.Input import Input
-from Screens.InputBox import InputBox
-from Screens.MessageBox import MessageBox
-from Screens.ChoiceBox import ChoiceBox
-from enigma import ePoint, eTimer, getDesktop
+from Components.config import config, ConfigInteger, ConfigSelection, ConfigSubsection, ConfigYesNo
 from GlobalActions import globalActionMap
-from keymapparser import readKeymap, removeKeymap
 from Plugins.Plugin import PluginDescriptor
+from Screens.ChoiceBox import ChoiceBox
+from Screens.InputBox import InputBox
 from Screens.Screen import Screen
-from Tools.Directories import resolveFilename, SCOPE_LANGUAGE, SCOPE_PLUGINS
-import gettext
-from os import system, path
-from sys import version_info
+from Tools.Directories import SCOPE_PLUGINS, resolveFilename
+from enigma import ePoint, getDesktop
+from keymapparser import readKeymap, removeKeymap
 
 try:
 	from Components.SystemInfo import BoxInfo
@@ -27,23 +28,8 @@ except ImportError:
 	from boxbranding import getImageDistro
 	IMAGEDISTRO = getImageDistro()
 
-PY3 = version_info[0] == 3
-
-if PY3:
-	PTime = "/usr/lib/enigma2/python/Plugins/Extensions/PermanentClock/PermanentClockTime.pyc"
-	ConverterTime = "/usr/lib/enigma2/python/Components/Converter/PermanentClockTime.pyc"
-	PWatches = "/usr/lib/enigma2/python/Plugins/Extensions/PermanentClock/PermanentClockWatches.pyc"
-	RendererWatches = "/usr/lib/enigma2/python/Components/Renderer/PermanentClockWatches.pyc"
-else:
-	PTime = "/usr/lib/enigma2/python/Plugins/Extensions/PermanentClock/PermanentClockTime.pyo"
-	ConverterTime = "/usr/lib/enigma2/python/Components/Converter/PermanentClockTime.pyo"
-	PWatches = "/usr/lib/enigma2/python/Plugins/Extensions/PermanentClock/PermanentClockWatches.pyo"
-	RendererWatches = "/usr/lib/enigma2/python/Components/Renderer/PermanentClockWatches.pyo"
-
-if not path.exists(ConverterTime):
-	system("cp " + PTime + " " + ConverterTime)
-if not path.exists(RendererWatches):
-	system("cp " + PWatches + " " + RendererWatches)
+PLUGIN_PATH = "/usr/lib/enigma2/python/Plugins/Extensions/PermanentClock"
+KEYMAP_PATH = path.join(PLUGIN_PATH, "keymap.xml")
 
 _session = None
 
@@ -62,7 +48,6 @@ def _(txt):
 		t = gettext.gettext(txt)
 	return t
 
-
 localeInit()
 language.addCallback(localeInit)
 
@@ -72,8 +57,21 @@ config.plugins.PermanentClock.position_x = ConfigInteger(default=500)
 config.plugins.PermanentClock.position_y = ConfigInteger(default=35)
 config.plugins.PermanentClock.analog = ConfigYesNo(default=False)
 config.plugins.PermanentClock.show_hide = ConfigYesNo(default=False)
-config.plugins.PermanentClock.color_analog = ConfigSelection([("1", _("black-yellow")), ("2", _("black-blue")), ("3", _("blue")), ("4", _("black-white")), ("5", _("white")), ("6", _("transparent")), ("7", _("PLi-transparent"))], default="1")
-config.plugins.PermanentClock.color_digital = ConfigSelection([("0", _("yellow")), ("1", _("white")), ("2", _("large yellow")), ("3", _("large white"))], default="1")
+config.plugins.PermanentClock.color_analog = ConfigSelection([
+	("1", _("black-yellow")),
+	("2", _("black-blue")),
+	("3", _("blue")),
+	("4", _("black-white")),
+	("5", _("white")),
+	("6", _("transparent")),
+	("7", _("PLi-transparent")),
+], default="1")
+config.plugins.PermanentClock.color_digital = ConfigSelection([
+	("0", _("yellow")),
+	("1", _("white")),
+	("2", _("large yellow")),
+	("3", _("large white")),
+], default="1")
 
 ##############################################################################
 SKIN1 = """
@@ -138,7 +136,7 @@ SKIN5 = """
 		<widget source="global.CurrentTime" render="PermanentClockWatches" position="7,7" size="58,58" zPosition="4" alphatest="on" foregroundColor="#00f23d21">
 			<convert type="PermanentClockTime">secHand</convert>
 		</widget>
-		<widget source="global.CurrentTime" render="PermanentClockPermanentClockWatches" position="12,13" size="47,47" zPosition="3"  foregroundColor="green"  alphatest="on">
+		<widget source="global.CurrentTime" render="PermanentClockWatches" position="12,13" size="47,47" zPosition="3"  foregroundColor="green"  alphatest="on">
 			<convert type="PermanentClockTime">minHand</convert>
 		</widget>
 		<widget source="global.CurrentTime" render="PermanentClockWatches" position="20,21" size="31,31" zPosition="2"  foregroundColor="green"  alphatest="on">
@@ -242,7 +240,7 @@ class PermanentClockNewScreen(Screen):
 			self.instance.move(ePoint(config.plugins.PermanentClock.position_x.value, config.plugins.PermanentClock.position_y.value))
 
 
-class PermanentClock():
+class PermanentClock(object):
 	def __init__(self):
 		self.dialog = None
 		self.clockShown = False
@@ -257,13 +255,13 @@ class PermanentClock():
 	def start_key(self):
 		if config.plugins.PermanentClock.show_hide.value and not self.clockey:
 			if 'showClock' not in globalActionMap.actions:
-				readKeymap("/usr/lib/enigma2/python/Plugins/Extensions/PermanentClock/keymap.xml")
+				readKeymap(KEYMAP_PATH)
 				globalActionMap.actions['showClock'] = self.ShowHideKey
 			self.clockey = True
 
 	def unload_key(self, force=False):
-		if not config.plugins.PermanentClock.show_hide.value and self.clockey or force:
-			removeKeymap("/usr/lib/enigma2/python/Plugins/Extensions/PermanentClock/keymap.xml")
+		if (not config.plugins.PermanentClock.show_hide.value and self.clockey) or force:
+			removeKeymap(KEYMAP_PATH)
 			if 'showClock' in globalActionMap.actions:
 				del globalActionMap.actions['showClock']
 			self.clockey = False
@@ -279,18 +277,12 @@ class PermanentClock():
 		return 0
 
 	def changeVisibility(self):
-		if config.plugins.PermanentClock.enabled.value:
-			config.plugins.PermanentClock.enabled.value = False
-		else:
-			config.plugins.PermanentClock.enabled.value = True
+		config.plugins.PermanentClock.enabled.value = not config.plugins.PermanentClock.enabled.value
 		config.plugins.PermanentClock.enabled.save()
 		self.showHide()
 
 	def changeAnalog(self):
-		if config.plugins.PermanentClock.analog.value:
-			config.plugins.PermanentClock.analog.value = False
-		else:
-			config.plugins.PermanentClock.analog.value = True
+		config.plugins.PermanentClock.analog.value = not config.plugins.PermanentClock.analog.value
 		config.plugins.PermanentClock.analog.save()
 		self.dialog = None
 
@@ -303,10 +295,7 @@ class PermanentClock():
 		self.dialog = None
 
 	def changeKey(self):
-		if config.plugins.PermanentClock.show_hide.value:
-			config.plugins.PermanentClock.show_hide.value = False
-		else:
-			config.plugins.PermanentClock.show_hide.value = True
+		config.plugins.PermanentClock.show_hide.value = not config.plugins.PermanentClock.show_hide.value
 		config.plugins.PermanentClock.show_hide.save()
 
 	def showHide(self):
@@ -346,14 +335,14 @@ class PermanentClockPositioner(Screen):
 			elif config.plugins.PermanentClock.color_digital.value == "3":
 				self.skin = SKIN0L
 		Screen.__init__(self, session)
-		self["actions"] = ActionMap(["WizardActions"],
-		{
+		self.session = session
+		self["actions"] = ActionMap(["WizardActions"], {
 			"left": self.left,
 			"up": self.up,
 			"right": self.right,
 			"down": self.down,
 			"ok": self.ok,
-			"back": self.exit
+			"back": self.exit,
 		}, -1)
 		self.desktopWidth = getDesktop(0).size().width()
 		self.desktopHeight = getDesktop(0).size().height()
@@ -367,32 +356,28 @@ class PermanentClockPositioner(Screen):
 		self.instance.move(ePoint(config.plugins.PermanentClock.position_x.value, config.plugins.PermanentClock.position_y.value))
 
 	def left(self):
-		value = config.plugins.PermanentClock.position_x.value
-		value -= self.slider
+		value = config.plugins.PermanentClock.position_x.value - self.slider
 		if value < 0:
 			value = 0
 		config.plugins.PermanentClock.position_x.value = value
 		self.movePosition()
 
 	def up(self):
-		value = config.plugins.PermanentClock.position_y.value
-		value -= self.slider
+		value = config.plugins.PermanentClock.position_y.value - self.slider
 		if value < 0:
 			value = 0
 		config.plugins.PermanentClock.position_y.value = value
 		self.movePosition()
 
 	def right(self):
-		value = config.plugins.PermanentClock.position_x.value
-		value += self.slider
+		value = config.plugins.PermanentClock.position_x.value + self.slider
 		if value > self.desktopWidth:
 			value = self.desktopWidth
 		config.plugins.PermanentClock.position_x.value = value
 		self.movePosition()
 
 	def down(self):
-		value = config.plugins.PermanentClock.position_y.value
-		value += self.slider
+		value = config.plugins.PermanentClock.position_y.value + self.slider
 		if value > self.desktopHeight:
 			value = self.desktopHeight
 		config.plugins.PermanentClock.position_y.value = value
@@ -439,25 +424,25 @@ class PermanentClockMenu(Screen):
 		self.onLayoutFinish.append(self.showMenu)
 
 	def showMenu(self):
-		list = []
+		entries = []
 		if config.plugins.PermanentClock.enabled.value:
-			list.append(_("Deactivate permanent clock"))
-			list.append(_("Change permanent clock position"))
+			entries.append(_("Deactivate permanent clock"))
+			entries.append(_("Change permanent clock position"))
 		else:
-			list.append(_("Activate permanent clock"))
+			entries.append(_("Activate permanent clock"))
 		if config.plugins.PermanentClock.enabled.value:
 			if config.plugins.PermanentClock.analog.value:
-				list.append(_("Show digital clock"))
-				list.append(_("Color analog clock"))
+				entries.append(_("Show digital clock"))
+				entries.append(_("Color analog clock"))
 			else:
-				list.append(_("Show analog clock"))
-				list.append(_("Color digital clock"))
+				entries.append(_("Show analog clock"))
+				entries.append(_("Color digital clock"))
 		if config.plugins.PermanentClock.enabled.value:
 			if config.plugins.PermanentClock.show_hide.value:
-				list.append(_("Disable key 'long EXIT' show/hide"))
+				entries.append(_("Disable key 'long EXIT' show/hide"))
 			else:
-				list.append(_("Enable key 'long EXIT' show/hide"))
-		self["list"].setList(list)
+				entries.append(_("Enable key 'long EXIT' show/hide"))
+		self["list"].setList(entries)
 
 	def newConfig(self, digital=False):
 		pClock.dialog.hide()
@@ -502,14 +487,14 @@ class PermanentClockMenu(Screen):
 
 	def colorClock(self, digital=False):
 		if digital:
-			list = [
+			entries = [
 				(_("yellow"), self.skins0),
 				(_("white"), self.skins),
 				(_("large yellow"), self.skins0l),
 				(_("large white"), self.skinsl),
 			]
 		else:
-			list = [
+			entries = [
 				(_("black-yellow"), self.skins1),
 				(_("black-blue"), self.skins2),
 				(_("blue"), self.skins3),
@@ -518,15 +503,11 @@ class PermanentClockMenu(Screen):
 				(_("transparent"), self.skins6),
 				(_("PLi-transparent"), self.skins7),
 			]
-		self.session.openWithCallback(
-			self.menuCallback,
-			ChoiceBox,
-			title=_("Choice color clock:"),
-			list=list,
-		)
+		self.session.openWithCallback(self.menuCallback, ChoiceBox, title=_("Choice color clock:"), list=entries)
 
 	def menuCallback(self, ret=None):
-		ret and ret[1]()
+		if ret:
+			ret[1]()
 
 	def positionerCallback(self, callback=None):
 		pClock.showHide()
@@ -579,7 +560,7 @@ class PermanentClockMenu(Screen):
 def sessionstart(reason, **kwargs):
 	global _session
 	if reason == 0 and _session is None:
-		_session = kwargs["session"]
+		_session = kwargs.get("session")
 		if _session:
 			pClock.gotSession(_session)
 
@@ -589,10 +570,10 @@ def startConfig(session, **kwargs):
 
 
 def main(menuid):
-	if IMAGEDISTRO in ('teamblue'):
+	if IMAGEDISTRO in ('teamblue',):
 		if menuid != "general_menu":
 			return []
-	elif IMAGEDISTRO in ('openhdf'):
+	elif IMAGEDISTRO in ('openhdf',):
 		if menuid != "gui_menu":
 			return []
 	else:
@@ -604,4 +585,5 @@ def main(menuid):
 def Plugins(**kwargs):
 	return [
 		PluginDescriptor(where=[PluginDescriptor.WHERE_SESSIONSTART], fnc=sessionstart),
-		PluginDescriptor(name=_("Permanent Clock"), description=_("Shows the clock permanent on the screen"), where=PluginDescriptor.WHERE_MENU, fnc=main)]
+		PluginDescriptor(name=_("Permanent Clock"), description=_("Shows the clock permanent on the screen"), where=PluginDescriptor.WHERE_MENU, fnc=main)
+	]
