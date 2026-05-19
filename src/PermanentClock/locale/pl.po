@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: enigma2-plugins 3.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-11 20:20+0000\n"
+"POT-Creation-Date: 2026-04-08 10:12+0200\n"
 "PO-Revision-Date: 2022-01-03 16:21+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -13,35 +13,108 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.2\n"
 
+#: ../plugin.py:432 ../plugin.py:460
 msgid "Activate permanent clock"
 msgstr "Aktywuj zegar na ekranie"
 
+#: ../plugin.py:430 ../plugin.py:463
 msgid "Change permanent clock position"
 msgstr "Zmień stałą pozycję zegara"
 
+#: ../plugin.py:506
+#, fuzzy
+msgid "Choice color clock:"
+msgstr "Pokaż zegar analogowy"
+
+#: ../plugin.py:436 ../plugin.py:483
 msgid "Color analog clock"
 msgstr "Kolorowy zegar analogowy"
 
+#: ../plugin.py:439 ../plugin.py:485
 msgid "Color digital clock"
 msgstr "Kolorowy zegar cyfrowy"
 
+#: ../plugin.py:429 ../plugin.py:460
 msgid "Deactivate permanent clock"
 msgstr "Wyłącz zegar na ekranie"
 
+#: ../plugin.py:442 ../plugin.py:473
 msgid "Disable key 'long EXIT' show/hide"
 msgstr "Wyłącz klawisz „długie EXIT” pokaż/ukryj"
 
+#: ../plugin.py:444 ../plugin.py:478
 msgid "Enable key 'long EXIT' show/hide"
 msgstr "Włącz klawisz „długie EXIT” pokaż/ukryj"
 
+#: ../plugin.py:67 ../plugin.py:504
+msgid "PLi-transparent"
+msgstr ""
+
+#: ../plugin.py:416 ../plugin.py:582 ../plugin.py:588
 msgid "Permanent Clock"
 msgstr "Zegar na ekranie"
 
+#: ../plugin.py:422
+#, fuzzy
+msgid "Permanent Clock Setup"
+msgstr "Zegar na ekranie"
+
+#: ../plugin.py:387
+msgid "Save"
+msgstr ""
+
+#: ../plugin.py:387
+msgid "Set slider"
+msgstr ""
+
+#: ../plugin.py:392
+msgid "Set slider step (1 - 20):"
+msgstr ""
+
+#: ../plugin.py:438 ../plugin.py:466
 msgid "Show analog clock"
 msgstr "Pokaż zegar analogowy"
 
+#: ../plugin.py:435 ../plugin.py:466
 msgid "Show digital clock"
 msgstr "Pokaż zegar cyfrowy"
 
+#: ../plugin.py:588
 msgid "Shows the clock permanent on the screen"
 msgstr "Pokazuje zegar na stałe na ekranie"
+
+#: ../plugin.py:62 ../plugin.py:499
+msgid "black-blue"
+msgstr ""
+
+#: ../plugin.py:64 ../plugin.py:501
+msgid "black-white"
+msgstr ""
+
+#: ../plugin.py:61 ../plugin.py:498
+msgid "black-yellow"
+msgstr ""
+
+#: ../plugin.py:63 ../plugin.py:500
+msgid "blue"
+msgstr ""
+
+#: ../plugin.py:73 ../plugin.py:494
+msgid "large white"
+msgstr ""
+
+#: ../plugin.py:72 ../plugin.py:493
+msgid "large yellow"
+msgstr ""
+
+#: ../plugin.py:66 ../plugin.py:503
+msgid "transparent"
+msgstr ""
+
+#: ../plugin.py:65 ../plugin.py:71 ../plugin.py:492 ../plugin.py:502
+msgid "white"
+msgstr ""
+
+#: ../plugin.py:70 ../plugin.py:491
+msgid "yellow"
+msgstr ""

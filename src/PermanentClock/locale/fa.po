@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: permanent clock Persian Translation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-16 19:06+0430\n"
+"POT-Creation-Date: 2026-04-08 10:12+0200\n"
 "PO-Revision-Date: 2012-07-26 00:31+0330\n"
 "Last-Translator: mehdi <mehdi_ar_yekta@yahoo.com>\n"
 "Language-Team: Persian Professionals <persianpros@yahoo.com>\n"
@@ -16,81 +16,107 @@ msgstr ""
 "X-Poedit-Country: IRAN, ISLAMIC REPUBLIC OF\n"
 "X-Poedit-SearchPath-0: /home/aliabdul/dream/enigma2-plugins/permanentclock/src\n"
 
+#: ../plugin.py:432 ../plugin.py:460
 msgid "Activate permanent clock"
 msgstr "فعال کردن ساعت دائمی"
 
+#: ../plugin.py:430 ../plugin.py:463
 msgid "Change permanent clock position"
 msgstr "تغییر مکان ساعت دائمی"
 
+#: ../plugin.py:506
 msgid "Choice color clock:"
 msgstr ""
 
+#: ../plugin.py:436 ../plugin.py:483
 msgid "Color analog clock"
 msgstr ""
 
+#: ../plugin.py:439 ../plugin.py:485
 msgid "Color digital clock"
 msgstr ""
 
+#: ../plugin.py:429 ../plugin.py:460
 msgid "Deactivate permanent clock"
 msgstr "غیر فعال کردن ساعت دائمی"
 
+#: ../plugin.py:442 ../plugin.py:473
 msgid "Disable key 'long EXIT' show/hide"
 msgstr ""
 
+#: ../plugin.py:444 ../plugin.py:478
 msgid "Enable key 'long EXIT' show/hide"
 msgstr ""
 
+#: ../plugin.py:67 ../plugin.py:504
 msgid "PLi-transparent"
 msgstr ""
 
+#: ../plugin.py:416 ../plugin.py:582 ../plugin.py:588
 msgid "Permanent Clock"
 msgstr "ساعت دائمی "
 
+#: ../plugin.py:422
 #, fuzzy
 msgid "Permanent Clock Setup"
 msgstr "ساعت دائمی "
 
+#: ../plugin.py:387
 msgid "Save"
 msgstr ""
 
+#: ../plugin.py:387
 msgid "Set slider"
 msgstr ""
 
+#: ../plugin.py:392
 msgid "Set slider step (1 - 20):"
 msgstr ""
 
+#: ../plugin.py:438 ../plugin.py:466
 msgid "Show analog clock"
 msgstr ""
 
+#: ../plugin.py:435 ../plugin.py:466
 msgid "Show digital clock"
 msgstr ""
 
+#: ../plugin.py:588
 msgid "Shows the clock permanent on the screen"
 msgstr "نمایش ساعت دائمی بروی صفحه نمایش"
 
+#: ../plugin.py:62 ../plugin.py:499
 msgid "black-blue"
 msgstr ""
 
+#: ../plugin.py:64 ../plugin.py:501
 msgid "black-white"
 msgstr ""
 
+#: ../plugin.py:61 ../plugin.py:498
 msgid "black-yellow"
 msgstr ""
 
+#: ../plugin.py:63 ../plugin.py:500
 msgid "blue"
 msgstr ""
 
+#: ../plugin.py:73 ../plugin.py:494
 msgid "large white"
 msgstr ""
 
+#: ../plugin.py:72 ../plugin.py:493
 msgid "large yellow"
 msgstr ""
 
+#: ../plugin.py:66 ../plugin.py:503
 msgid "transparent"
 msgstr ""
 
+#: ../plugin.py:65 ../plugin.py:71 ../plugin.py:492 ../plugin.py:502
 msgid "white"
 msgstr ""
 
+#: ../plugin.py:70 ../plugin.py:491
 msgid "yellow"
 msgstr ""

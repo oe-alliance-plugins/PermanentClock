@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: enigma2 - permanentclock\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-16 19:06+0430\n"
+"POT-Creation-Date: 2026-04-08 10:12+0200\n"
 "PO-Revision-Date: 2022-12-28 00:48+0100\n"
 "Last-Translator: Madhouse <anonm4d@gmail.com>\n"
 "Language-Team: www.smart-shell.com <anonm4d@gmail.com>\n"
@@ -17,81 +17,107 @@ msgstr ""
 "X-Poedit-Basepath: /home/madhouse/Plugins/permanentclock\n"
 "X-Poedit-SearchPath-0: /home/madhouse/Plugins/permanentclock\n"
 
+#: ../plugin.py:432 ../plugin.py:460
 msgid "Activate permanent clock"
 msgstr "Attivare l'orologio permanente"
 
+#: ../plugin.py:430 ../plugin.py:463
 msgid "Change permanent clock position"
 msgstr "Cambiare la posizione dell'orologio"
 
+#: ../plugin.py:506
 msgid "Choice color clock:"
 msgstr "Scegli il colore dell'orologio:"
 
+#: ../plugin.py:436 ../plugin.py:483
 msgid "Color analog clock"
 msgstr "Colore orologio analogico"
 
+#: ../plugin.py:439 ../plugin.py:485
 msgid "Color digital clock"
 msgstr "Colore orologio digitale"
 
+#: ../plugin.py:429 ../plugin.py:460
 msgid "Deactivate permanent clock"
 msgstr "Disattivare l'orologio permanente"
 
+#: ../plugin.py:442 ../plugin.py:473
 msgid "Disable key 'long EXIT' show/hide"
 msgstr "Disabilita il tasto 'pressione lunga Exit' mostra/nascondi"
 
+#: ../plugin.py:444 ../plugin.py:478
 msgid "Enable key 'long EXIT' show/hide"
 msgstr "Abilitare il tasto 'pressione lunga Exit' mostra/nascondi"
 
+#: ../plugin.py:67 ../plugin.py:504
 msgid "PLi-transparent"
 msgstr "PLi-trasparente"
 
+#: ../plugin.py:416 ../plugin.py:582 ../plugin.py:588
 msgid "Permanent Clock"
 msgstr "Orologio Permanente"
 
+#: ../plugin.py:422
 #, fuzzy
 msgid "Permanent Clock Setup"
 msgstr "Impostazioni Permanent Clock"
 
+#: ../plugin.py:387
 msgid "Save"
 msgstr "Salva"
 
+#: ../plugin.py:387
 msgid "Set slider"
 msgstr "Imposta lo step"
 
+#: ../plugin.py:392
 msgid "Set slider step (1 - 20):"
 msgstr "Imposta lo step (1 - 20):"
 
+#: ../plugin.py:438 ../plugin.py:466
 msgid "Show analog clock"
 msgstr "Mostra orologio analogico"
 
+#: ../plugin.py:435 ../plugin.py:466
 msgid "Show digital clock"
 msgstr "Mostra orologio digitale"
 
+#: ../plugin.py:588
 msgid "Shows the clock permanent on the screen"
 msgstr "Mostrare sullo schermo un orologio permanente"
 
+#: ../plugin.py:62 ../plugin.py:499
 msgid "black-blue"
 msgstr "nero-blu"
 
+#: ../plugin.py:64 ../plugin.py:501
 msgid "black-white"
 msgstr "nero-bianco"
 
+#: ../plugin.py:61 ../plugin.py:498
 msgid "black-yellow"
 msgstr "nero-giallo"
 
+#: ../plugin.py:63 ../plugin.py:500
 msgid "blue"
 msgstr "blu"
 
+#: ../plugin.py:73 ../plugin.py:494
 msgid "large white"
 msgstr "grande bianco"
 
+#: ../plugin.py:72 ../plugin.py:493
 msgid "large yellow"
 msgstr "grande giallo"
 
+#: ../plugin.py:66 ../plugin.py:503
 msgid "transparent"
 msgstr "trasparente"
 
+#: ../plugin.py:65 ../plugin.py:71 ../plugin.py:492 ../plugin.py:502
 msgid "white"
 msgstr "bianco"
 
+#: ../plugin.py:70 ../plugin.py:491
 msgid "yellow"
 msgstr "giallo"
